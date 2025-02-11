@@ -31,3 +31,11 @@
 .answer{
     color: rgb(216, 231, 6);
 }
+button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }

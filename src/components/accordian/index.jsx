@@ -1,59 +1,94 @@
-// single selection
-import { useState } from "react";
+import React, { useReducer } from "react";
 import data from "./data.js";
 import "./styles.css";
 
-function Accordian() {
-  const [selected, setSelected] = useState(null);
-  const [button, setButton] = useState("single");
-  const [multiy, setMultiy] = useState([]);
+const initinalState = {
+  selected: null,
+  multiSelected: [],
+  button: "single",
+};
 
-  function handleSingleSelection(getId) {
-    setSelected(getId === selected ? null : getId);
+const actionTypes = {
+  TOGGLE_SET_SELECTED: "TOGGLE_SET_SELECTED",
+  TOGGLE_MULTI_SELECTED: "TOGGLE_MULTI_SELECTED",
+  TOGGLE_BUTTON: "TOGGLE_BUTTON",
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case actionTypes.TOGGLE_SET_SELECTED:
+      return {
+        ...state,
+        selected: action.payload === state.selected ? null : action.payload,
+      };
+
+    case actionTypes.TOGGLE_MULTI_SELECTED:
+      const index = state.multiSelected.indexOf(action.payload);
+      if (index === -1) {
+        return {
+          ...state,
+          multiSelected: [...state.multiSelected, action.payload],
+        };
+      } else {
+        return {
+          ...state,
+          multiSelected: state.multiSelected.filter(
+            (item) => item !== action.payload
+          ),
+        };
+      }
+    case actionTypes.TOGGLE_BUTTON:
+      return {
+        ...state,
+        button: state.button === "single" ? "multi" : "single",
+      };
+    default:
+      return state;
   }
-  function handleMultiySelection(getId) {
-    let currentMultiy = [...multiy];
-    const indexOfCurrentId = currentMultiy.indexOf(getId)
-    if(indexOfCurrentId === -1) currentMultiy.push(getId)
-    else currentMultiy.splice(indexOfCurrentId, 1)
-    
-    setMultiy(currentMultiy)
-    console.log(selected, multiy)
-    
-    
-  }
+}
+
+function Accordion() {
+  const [state, dispatch] = useReducer(reducer, initinalState);
+
   function handleButton() {
-    setButton(button === "single" ? "multiy" : "single");
+    dispatch({ type: actionTypes.TOGGLE_BUTTON });
   }
 
+  function handleSelection(id) {
+    if (state.button === "single") {
+      dispatch({ type: actionTypes.TOGGLE_SET_SELECTED, payload: id });
+      
+    } else {
+      dispatch({ type: actionTypes.TOGGLE_MULTI_SELECTED, payload: id });
+     
+    }
+  }
   return (
     <div className="wrapper">
+      <button className="button" onClick={() => handleButton()}>
+        {state.button}
+      </button>
       <div className="items">
-        <button className="button" onClick={() => handleButton()}>
-          {button} selection{" "}
-        </button>
-        {data.map((dataItem) => (
-          <div className="item">
-            <div
-              onClick={
-                button === "single"
-                  ? () => handleSingleSelection(dataItem.id)
-                  : () => handleMultiySelection(dataItem.id)
-              }
-              className="question"
-            >
-              <h3 className="question">{dataItem.question}</h3>
+        {data.map((dataItem) => {
+          return (
+            <div className="item" key={dataItem.id}>
+              <div
+                className="question"
+                onClick={() => handleSelection(dataItem.id)}
+              >
+                {dataItem.question}
+              </div>
+
+              {(state.button === "single" && state.selected === dataItem.id) ||
+              (state.button === "multi" &&
+                state.multiSelected.includes(dataItem.id)) ? (
+                <div className="answer">{dataItem.answer}</div>
+              ) : null}
             </div>
-            {button ==="multiy"?
-             multiy.indexOf(dataItem.id) !== -1 && <div className="answer">{dataItem.answer}</div> :
-            selected === dataItem.id  ? (
-              <div className="answer">{dataItem.answer}</div>
-            ) : null}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
 }
-
-export default Accordian;
+export default Accordion;

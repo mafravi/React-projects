@@ -1,0 +1,97 @@
+/* Container for the entire layout */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    min-height: 100vh; /* Ensure the container takes the full height of the viewport */
+  }
+  
+  /* Product Grid */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns by default */
+    gap: 20px; /* Space between product cards */
+    width: 100%;
+    max-width: 1200px; /* Limit max width of the grid */
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+  
+  /* Individual Product Card */
+  .product {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .product:hover {
+    transform: translateY(-5px); /* Hover effect to lift the product card */
+  }
+  
+  .product img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover; /* Ensure the images are properly contained and do not distort */
+  }
+  
+  .product p {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Button Section */
+  .button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  /* Loading Message */
+  .loading {
+    font-size: 18px;
+    color: #007bff;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Limit Reached Message */
+  p {
+    font-size: 16px;
+    color: #d9534f;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+  }

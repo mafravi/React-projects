@@ -1,0 +1,22 @@
+/* Ensure the container takes up the full page height */
+html,body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  .tree-view-container{
+    position: absolute;  
+    top: 0;              
+    left: 0;             
+    margin: 20px;        
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #7daacd;
+    
+    padding: 10px;
+    border-radius: 4px;
+    min-height: 100vh;
+    
+  }
+ 
